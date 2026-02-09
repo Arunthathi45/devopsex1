@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Journal | Adventure Diary</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 800px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .cta-button {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-weight: bold;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Timeline */
+        .timeline-section {
+            background: white;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .travel-date {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .travel-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        /* Gallery */
+        .gallery-section {
+            background: #f8f9fa;
+            padding: 4rem 2rem;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-item {
+            position: relative;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Add Entry Form */
+        .form-section {
+            background: white;
+            padding: 4rem 2rem;
+        }
+
+        .entry-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .photo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">✈️ Travel Journal</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#timeline">Journey</a>
+            <a href="#gallery">Photos</a>
+            <a href="#add">Add Entry</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Your Adventure Awaits</h1>
+            <p>Document your travels, share your stories, and relive your memories. Start your journey today!</p>
+            <button class="cta-button" onclick="scrollToAddEntry()">Start Journaling</button>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="timeline-section">
+        <h2 class="section-title">My Travel Adventures</h2>
+        <div class="timeline" id="timelineContainer">
+            <!-- Timeline items will be added here -->
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <h2 class="section-title">Photo Gallery</h2>
+        <div class="photo-grid">
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Mountain">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w-600&q=80" alt="Desert">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80" alt="Beach">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&q=80" alt="City">
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Entry Form -->
+    <section id="add" class="form-section">
+        <h2 class="section-title">Add New Adventure</h2>
+        <div class="entry-form">
+            <form id="travelForm">
+                <div class="form-group">
+                    <label for="destination">Destination:</label>
+                    <input type="text" id="destination" placeholder="Where did you go?" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Travel Date:</label>
+                    <input type="text" id="date" placeholder="e.g., June 2024" required>
+                </div>
+                <div class="form-group">
+                    <label for="story">Your Story:</label>
+                    <textarea id="story" placeholder="Share your experience..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image URL (optional):</label>
+                    <input type="url" id="image" placeholder="https://example.com/photo.jpg">
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">Add to Journal</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Travel Journal &copy; 2024 | Made with ❤️ for adventurers</p>
+        <p style="margin-top: 1rem; opacity: 0.8;">Journeys: <span id="journeyCount">3</span> | Photos: <span id="photoCount">4</span></p>
+    </footer>
+
+    <script>
+        // Initial travel entries
+        const initialEntries = [
+            {
+                destination: "Swiss Alps",
+                date: "May 2024",
+                story: "Hiking through breathtaking mountain trails with stunning views of snow-capped peaks.",
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
+            },
+            {
+                destination: "Sahara Desert",
+                date: "March 2024",
+                story: "Camel trekking under the stars and experiencing Berber hospitality in the desert.",
+                image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&q=80"
+            },
+            {
+                destination: "Bali Beaches",
+                date: "January 2024",
+                story: "Sunset surfing and exploring hidden temples in this tropical paradise.",
+                image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80"
+            }
+        ];
+
+        // Display initial entries
+        function displayEntries() {
+            const timeline = document.getElementById('timelineContainer');
+            timeline.innerHTML = '';
+            
+            initialEntries.forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.style.animationDelay = `${index * 0.2}s`;
+                item.innerHTML = `
+                    <div class="travel-date">${entry.date}</div>
+                    <h3>${entry.destination}</h3>
+                    <img src="${entry.image}" alt="${entry.destination}" class="travel-image">
+                    <p>${entry.story}</p>
+                `;
+                timeline.appendChild(item);
+            });
+            
+            // Make entries visible
+            setTimeout(() => {
+                document.querySelectorAll('.timeline-item').forEach(item => {
+                    item.classList.add('visible');
+                });
+            }, 100);
+        }
+
+        // Handle form submission
+        document.getElementById('travelForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const story = document.getElementById('story').value;
+            const image = document.getElementById('image').value || 
+                         'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80';
+            
+            // Create new timeline item
+            const timeline = document.getElementById('timelineContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'timeline-item';
+            newItem.innerHTML = `
+                <div class="travel-date">${date}</div>
+                <h3>${destination}</h3>
+                <img src="${image}" alt="${destination}" class="travel-image">
+                <p>${story}</p>
+            `;
+            
+            timeline.insertBefore(newItem, timeline.firstChild);
+            
+            // Add to photo grid if image provided
+            if (image) {
+                const photoGrid = document.querySelector('.photo-grid');
+                const newPhoto = document.createElement('div');
+                newPhoto.className = 'photo-item';
+                newPhoto.innerHTML = `<img src="${image}" alt="${destination}">`;
+                photoGrid.appendChild(newPhoto);
+            }
+            
+            // Update counters
+            document.getElementById('journeyCount').textContent = 
+                parseInt(document.getElementById('journeyCount').textContent) + 1;
+            document.getElementById('photoCount').textContent = 
+                document.querySelectorAll('.photo-item').length;
+            
+            // Reset form
+            document.getElementById('travelForm').reset();
+            
+            // Animate new item
+            setTimeout(() => {
+                newItem.classList.add('visible');
+            }, 100);
+            
+            alert('✅ Adventure added to your journal!');
+        });
+
+        // Scroll animation for timeline items
+        function checkScroll() {
+            const items = document.querySelectorAll('.timeline-item');
+            const windowHeight = window.innerHeight;
+            
+            items.forEach(item => {
+                const position = item.getBoundingClientRect().top;
+                
+                if (position < windowHeight - 100) {
+                    item.classList.add('visible');
+                }
+            });
+        }
+
+        // Smooth scroll function
+        function scrollToAddEntry() {
+            document.getElementById('add').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Initialize everything when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            displayEntries();
+            checkScroll();
+            
+            // Update scroll animation
+            window.addEventListener('scroll', checkScroll);
+            
+            // Update photo count
+            document.getElementById('photoCount').textContent = 
+                document.querySelectorAll('.photo-item').length;
+        });
+    </script>
+</body>
+</html>
